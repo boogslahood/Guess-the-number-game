@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guess the Number Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f0f0f0;
+      padding: 20px;
+    }
+    h1 {
+      color: #333;
+    }
+    .game {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      display: inline-block;
+    }
+    input {
+      padding: 10px;
+      font-size: 16px;
+      margin: 10px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #218838;
+    }
+    .message {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="game">
+    <h1>Guess the Number Game</h1>
+    <p>I'm thinking of a number between 1 and 100. Can you guess it?</p>
+    <input type="number" id="guess" placeholder="Enter your guess (1-100)" min="1" max="100">
+    <button onclick="checkGuess()">Submit</button>
+    <div class="message" id="message"></div>
+  </div>
+
+  <script>
+    const secretNumber = Math.floor(Math.random() * 100) + 1;
+    let attempts = 0;
+
+    function checkGuess() {
+      const guessInput = document.getElementById('guess');
+      const message = document.getElementById('message');
+      const guess = parseInt(guessInput.value);
+
+      if (isNaN(guess) || guess < 1 || guess > 100) {
+        message.textContent = "Please enter a valid number between 1 and 100!";
+        return;
+      }
+
+      attempts++;
+      if (guess < secretNumber) {
+        message.textContent = "Too low! Aim higher...";
+      } else if (guess > secretNumber) {
+        message.textContent = "Too high! Bring it down...";
+      } else {
+        message.innerHTML = `🎉 Congratulations! You guessed it in ${attempts} attempts!<br>`;
+        if (attempts === 1) {
+          message.innerHTML += "Wait... Are you PSYCHIC?!";
+        } else if (attempts <= 5) {
+          message.innerHTML += "Impressive skills! 🏆";
+        } else if (attempts <= 10) {
+          message.innerHTML += "Not bad at all! 👍";
+        } else {
+          message.innerHTML += "Phew, that was a close one! 😅";
+        }
+        guessInput.disabled = true;
+      }
+
+      guessInput.value = '';
+      guessInput.focus();
+    }
+  </script>
+</body>
+</html>
